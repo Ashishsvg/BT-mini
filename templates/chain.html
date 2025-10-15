@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>Blockchain Ledger {% if valid %}<span class="badge bg-success">Valid ✅</span>{% else %}<span class="badge bg-danger">Tampered ❌</span>{% endif %}</h4>
+<table class="table table-bordered table-hover mt-3">
+  <thead class="table-dark">
+    <tr>
+      <th>Index</th><th>Timestamp</th><th>Transactions</th><th>Nonce</th><th>Prev Hash</th><th>Hash</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for block in chain %}
+  <tr>
+    <td>{{ block.index }}</td>
+    <td>{{ block.timestamp }}</td>
+    <td>
+      {% for tx in block.transactions %}
+        {{ tx.sender }} → {{ tx.recipient }} : {{ tx.amount }}<br>
+      {% endfor %}
+    </td>
+    <td>{{ block.nonce }}</td>
+    <td>{{ block.previous_hash[:10] }}...</td>
+    <td>{{ block.hash[:10] }}...</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
